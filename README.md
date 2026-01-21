@@ -10,15 +10,16 @@ The goal is to generate **timely monthly dengue estimates** when official report
 ---
 
 ## Repository Structure
-.
-├── master_data.csv
-├── model_step1_google_only.py
-├── predictions_step1_monthly.csv
-├── step2_nowcast_train_test_split.ipynb
-├── step2_nowcast_loss_function_train_test_split.ipynb
-├── step2_nowcast_mixed_lags.ipynb
-├── outputs_step1/
-└── outputs_step2/
+
+| File / Folder | Description |
+|---|---|
+| `master_data.csv` | Unified dataset (WHO + Google Trends + optional proxies) |
+| `model_step1_google_only.py` | Step 1: train Google-only proxy model |
+| `predictions_step1_monthly.csv` | Cached Step 1 monthly predictions |
+| `step2_nowcast_train_test_split.ipynb` | Step 2 baseline nowcasting (train/test split) |
+| `step2_nowcast_loss_function_train_test_split.ipynb` | Step 2 variant with custom loss |
+| `outputs_step1/` | Step 1 plots and logs |
+| `outputs_step2/` | Step 2 plots, metrics, and exported predictions |
 
 
 ### Key Files
