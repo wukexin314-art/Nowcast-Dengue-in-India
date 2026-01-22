@@ -1,0 +1,62 @@
+{
+  "config": {
+    "data_path": "master_data.csv",
+    "outdir": "outputs_step1_wiki",
+    "start_month": "2021-01",
+    "who_monthly_source": "WHO",
+    "google_fever_source": "Google_Trends_Dengue_fever",
+    "google_vaccine_source": "Google_Trends_Dengue_vaccine",
+    "use_wiki": true,
+    "wiki_path": "total_dengue_views.csv",
+    "wiki_month_col": "Month",
+    "wiki_value_col": "Total_Views",
+    "wiki_transform": "log1p",
+    "yearly_proxy_sources_priority": [
+      "OpenDengue_State_Aggregated",
+      "OpenDengue_National_Yearly"
+    ],
+    "lambda_who": 1.0,
+    "lambda_year": 1.0,
+    "lambda_reg": 0.001,
+    "epochs": 5000,
+    "lr": 0.01,
+    "seed": 42,
+    "target_scale": 1000.0,
+    "clip_nonnegative": true
+  },
+  "features": [
+    "intercept",
+    "g_fever",
+    "g_vaccine",
+    "wiki_views",
+    "m_2",
+    "m_3",
+    "m_4",
+    "m_5",
+    "m_6",
+    "m_7",
+    "m_8",
+    "m_9",
+    "m_10",
+    "m_11",
+    "m_12"
+  ],
+  "beta": {
+    "intercept": 0.2786406874656677,
+    "g_fever": 0.9357427358627319,
+    "g_vaccine": -0.06816570460796356,
+    "wiki_views": -0.13592089712619781,
+    "m_2": -1.0010849237442017,
+    "m_3": -0.6713566780090332,
+    "m_4": -1.1409912109375,
+    "m_5": -1.118422508239746,
+    "m_6": -1.8943322896957397,
+    "m_7": -0.9349998831748962,
+    "m_8": -0.6810010671615601,
+    "m_9": 0.7981528043746948,
+    "m_10": 5.1878886222839355,
+    "m_11": 4.1356682777404785,
+    "m_12": 2.537533760070801
+  },
+  "target_scale": 1000.0
+}
