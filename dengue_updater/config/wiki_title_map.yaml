@@ -1,0 +1,22 @@
+# Wikipedia page title mappings for dengue and mosquito.
+# Keys are BCP-47 language codes; values are Wikipedia article titles
+# (spaces replaced with underscores, matching the Wikimedia API article path).
+#
+# To add or remove a language, edit this file — do NOT edit fetch_wikipedia.py.
+# Verify titles are valid before adding: python src/verify_titles.py
+
+dengue:
+  hi: "डेंगू_बुख़ार"        # Hindi
+  kn: "ಡೆಂಗೇ"               # Kannada
+  ml: "ഡെങ്കിപ്പനി"          # Malayalam
+  mr: "डेंग्यू_ताप"          # Marathi
+  ta: "முடக்குக்_காய்ச்சல்"  # Tamil
+  te: "డెంగ్యూ_జ్వరం"        # Telugu
+  bn: "ডেঙ্গু_জ্বর"           # Bengali
+
+mosquito:
+  hi: "मच्छर"               # Hindi
+  ta: "கொசு"                # Tamil
+  mr: "डास"                 # Marathi
+  ml: "കൊതുക്"              # Malayalam
+  kn: "ಸೊಳ್ಳೆ"              # Kannada

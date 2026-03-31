@@ -1,5 +1,6 @@
 year,pred_year_total,od_total,od_source
-2021,201079.66015625,193245.0,OpenDengue_State_Aggregated
-2022,225039.86108398438,233251.0,OpenDengue_State_Aggregated
-2023,294050.2314453125,289235.0,OpenDengue_State_Aggregated
-2024,228651.5400390625,233519.0,OpenDengue_State_Aggregated
+2021,201760.03295898438,193245.0,OpenDengue_State_Aggregated
+2022,225056.68237304688,233251.0,OpenDengue_State_Aggregated
+2023,293286.525390625,289235.0,OpenDengue_State_Aggregated
+2024,229358.88134765625,233519.0,OpenDengue_State_Aggregated
+2025,112724.27661132812,113450.0,OpenDengue_State_Aggregated

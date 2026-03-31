@@ -1,0 +1,123 @@
+14:24:38 INFO     ============================================================
+14:24:38 INFO     Dengue Updater  run_id=20260331_142438
+14:24:38 INFO     ============================================================
+14:24:38 INFO     update_monthly | monthly_data.csv not found — starting fresh
+14:24:38 INFO     update_yearly | yearly_data.csv not found — starting fresh
+14:24:38 INFO     --- WHO fetch ---
+14:24:38 INFO     fetch_who | Trying Shiny WebSocket download layer
+14:24:38 INFO     fetch_who | Fetching dashboard HTML to discover worker ID
+14:24:39 INFO     fetch_who | Found worker prefix: _w_541b3a7a394e4de8a563b177ae51733a
+14:24:39 INFO     fetch_who | Connecting WebSocket: wss://worldhealthorg.shinyapps.io/dengue_global/_w_541b3a7a394e4de8a563b177ae51733a/websocket/
+14:24:40 INFO     fetch_who | Got sessionId: ea359f2172df10c7c7e16378bc7d7899
+14:24:40 INFO     fetch_who | Sent init message, waiting for download URL...
+14:24:40 INFO     fetch_who | Got download path: session/ea359f2172df10c7c7e16378bc7d7899/download/dl_all_data?w=541b3a7a394e4de8a563b177ae51733a
+14:24:40 INFO     fetch_who | Accepting terms modal (closeModal)...
+14:24:44 INFO     fetch_who | Navigating to download tab...
+14:24:52 INFO     fetch_who | Downloading Excel: https://worldhealthorg.shinyapps.io/dengue_global/session/ea359f2172df10c7c7e16378bc7d7899/download/dl_all_data?w=541b3a7a394e4de8a563b177ae51733a
+14:24:53 INFO     fetch_who | Download response: status=200, content-type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, size=738867 bytes
+14:24:53 INFO     fetch_who | Extracted 26 India monthly rows (date range: 2024-01 → 2026-02)
+14:24:53 INFO     fetch_who | Raw response saved to /Users/cathiesmac/Downloads/Nowcast Dengue in India/dengue_updater/data/raw/who/who_shiny_20260331_142453.xlsx
+14:24:53 INFO     fetch_who | Shiny layer succeeded: 26 rows
+14:24:53 INFO     update_monthly | who_cases_monthly: +26 new, ~0 updated
+14:24:53 INFO     WHO: SUCCESS (26 rows fetched, +26 new, ~0 updated) in 14.8s
+14:24:53 INFO     --- Google Trends fetch ---
+14:24:54 INFO     fetch_google_trends | 'dengue fever': Dropped 1 isPartial rows
+14:24:54 INFO     fetch_google_trends | 'dengue fever': Fetched 62 rows (attempt 1)
+14:24:54 INFO     fetch_google_trends | 'dengue fever': 62 rows saved to /Users/cathiesmac/Downloads/Nowcast Dengue in India/dengue_updater/data/raw/google_trends/dengue_fever_20260331_142454.csv
+14:24:55 INFO     fetch_google_trends | 'dengue vaccine': Dropped 1 isPartial rows
+14:24:55 INFO     fetch_google_trends | 'dengue vaccine': Fetched 62 rows (attempt 1)
+14:24:55 INFO     fetch_google_trends | 'dengue vaccine': 62 rows saved to /Users/cathiesmac/Downloads/Nowcast Dengue in India/dengue_updater/data/raw/google_trends/dengue_vaccine_20260331_142455.csv
+14:24:57 INFO     update_monthly | google_trends_dengue_fever: +62 new, ~0 updated
+14:24:57 INFO     Google Trends 'dengue_fever': SUCCESS (62 rows)
+14:24:57 INFO     update_monthly | google_trends_dengue_vaccine: +62 new, ~0 updated
+14:24:57 INFO     Google Trends 'dengue_vaccine': SUCCESS (62 rows)
+14:24:57 INFO     Google Trends total time: 3.8s
+14:24:57 INFO     --- OpenDengue fetch ---
+14:24:57 INFO     fetch_open_dengue | Downloaded 29873 rows from ZIP https://raw.githubusercontent.com/OpenDengue/master-repo/main/data/releases/V1.3/National_extract_V1_3.zip (file: National_extract_V1_3.csv)
+14:24:57 INFO     fetch_open_dengue | S_res filter: 35 → 35 rows
+14:24:57 INFO     fetch_open_dengue | Excluding 1 non-Year T_res rows (partial-year monthly data, years: ['2025'])
+14:24:57 INFO     fetch_open_dengue | Raw CSV saved to /Users/cathiesmac/Downloads/Nowcast Dengue in India/dengue_updater/data/raw/open_dengue/national_yearly_v1_3_20260331_142457.csv
+14:24:57 INFO     fetch_open_dengue | Missing years (will remain null): 2025, 2026
+14:24:57 INFO     fetch_open_dengue | Fetched 4 yearly India rows (years: 2021 → 2024), source: https://raw.githubusercontent.com/OpenDengue/master-repo/main/data/releases/V1.3/National_extract_V1_3.zip
+14:24:57 INFO     update_yearly | open_dengue_national_yearly: +4 new, ~0 updated
+14:24:57 INFO     OpenDengue: SUCCESS (4 rows fetched, +4 new, ~0 updated) in 0.3s
+14:24:57 INFO     --- Wikipedia fetch ---
+14:24:58 INFO     verify_titles | dengue / hi (डेंगू_बुख़ार): HTTP 403
+14:24:58 WARNING  verify_titles | INVALID title — topic=dengue lang=hi title='डेंगू_बुख़ार' → HTTP 403
+14:24:58 INFO     verify_titles | dengue / kn (ಡೆಂಗೇ): HTTP 403
+14:24:58 WARNING  verify_titles | INVALID title — topic=dengue lang=kn title='ಡೆಂಗೇ' → HTTP 403
+14:24:59 INFO     verify_titles | dengue / ml (ഡെങ്കിപ്പനി): HTTP 403
+14:24:59 WARNING  verify_titles | INVALID title — topic=dengue lang=ml title='ഡെങ്കിപ്പനി' → HTTP 403
+14:24:59 INFO     verify_titles | dengue / mr (डेंग्यू_ताप): HTTP 403
+14:24:59 WARNING  verify_titles | INVALID title — topic=dengue lang=mr title='डेंग्यू_ताप' → HTTP 403
+14:25:00 INFO     verify_titles | dengue / ta (முடக்குக்_காய்ச்சல்): HTTP 403
+14:25:00 WARNING  verify_titles | INVALID title — topic=dengue lang=ta title='முடக்குக்_காய்ச்சல்' → HTTP 403
+14:25:01 INFO     verify_titles | dengue / te (డెంగ్యూ_జ్వరం): HTTP 403
+14:25:01 WARNING  verify_titles | INVALID title — topic=dengue lang=te title='డెంగ్యూ_జ్వరం' → HTTP 403
+14:25:01 INFO     verify_titles | dengue / bn (ডেঙ্গু_জ্বর): HTTP 403
+14:25:01 WARNING  verify_titles | INVALID title — topic=dengue lang=bn title='ডেঙ্গু_জ্বর' → HTTP 403
+14:25:02 INFO     verify_titles | mosquito / hi (मच्छर): HTTP 403
+14:25:02 WARNING  verify_titles | INVALID title — topic=mosquito lang=hi title='मच्छर' → HTTP 403
+14:25:02 INFO     verify_titles | mosquito / ta (கொசு): HTTP 403
+14:25:02 WARNING  verify_titles | INVALID title — topic=mosquito lang=ta title='கொசு' → HTTP 403
+14:25:03 INFO     verify_titles | mosquito / mr (डास): HTTP 403
+14:25:03 WARNING  verify_titles | INVALID title — topic=mosquito lang=mr title='डास' → HTTP 403
+14:25:04 INFO     verify_titles | mosquito / ml (കൊതുക്): HTTP 403
+14:25:04 WARNING  verify_titles | INVALID title — topic=mosquito lang=ml title='കൊതുക്' → HTTP 403
+14:25:04 INFO     verify_titles | mosquito / kn (ಸೊಳ್ಳೆ): HTTP 403
+14:25:04 WARNING  verify_titles | INVALID title — topic=mosquito lang=kn title='ಸೊಳ್ಳೆ' → HTTP 403
+14:25:05 ERROR    fetch_wikipedia | topic=dengue: ALL 7 language titles failed validation. Existing stored values will be preserved.
+14:25:05 ERROR    fetch_wikipedia | topic=mosquito: ALL 5 language titles failed validation. Existing stored values will be preserved.
+14:25:05 WARNING  Wikipedia dengue: FAILED — existing values preserved
+14:25:05 WARNING  Wikipedia mosquito: FAILED — existing values preserved
+14:25:05 INFO     Wikipedia total time: 7.2s
+14:25:05 INFO     [DRY RUN] Would save 62 monthly rows and 4 yearly rows
+14:25:05 INFO     Log entries appended to /Users/cathiesmac/Downloads/Nowcast Dengue in India/dengue_updater/logs/update_log.csv
+14:25:05 INFO     [DRY RUN] Run summary:
+{
+  "run_time": "2026-03-31T14:24:38.943933",
+  "overall_status": "PARTIAL",
+  "successful_sources": [
+    "WHO",
+    "google_trends",
+    "open_dengue"
+  ],
+  "failed_sources": [
+    "wiki_dengue",
+    "wiki_mosquito"
+  ],
+  "partial_sources": [],
+  "wiki_dengue_coverage": {
+    "expected": 7,
+    "successful": 0,
+    "failed_languages": [
+      "hi",
+      "kn",
+      "ml",
+      "mr",
+      "ta",
+      "te",
+      "bn"
+    ]
+  },
+  "wiki_mosquito_coverage": {
+    "expected": 5,
+    "successful": 0,
+    "failed_languages": [
+      "hi",
+      "ta",
+      "mr",
+      "ml",
+      "kn"
+    ]
+  },
+  "output_files": {
+    "monthly_data": "/Users/cathiesmac/Downloads/Nowcast Dengue in India/dengue_updater/data/processed/monthly_data.csv",
+    "yearly_data": "/Users/cathiesmac/Downloads/Nowcast Dengue in India/dengue_updater/data/processed/yearly_data.csv",
+    "master_xlsx": "/Users/cathiesmac/Downloads/Nowcast Dengue in India/dengue_updater/data/processed/master_data.xlsx"
+  },
+  "notes": "Failed sources: wiki_dengue, wiki_mosquito"
+}
+14:25:05 INFO     ============================================================
+14:25:05 INFO     Overall status: PARTIAL
+14:25:05 INFO     ============================================================

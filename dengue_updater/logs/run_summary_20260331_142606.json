@@ -1,0 +1,17 @@
+{
+  "run_time": "2026-03-31T14:26:06.804158",
+  "overall_status": "SUCCESS",
+  "successful_sources": [
+    "open_dengue"
+  ],
+  "failed_sources": [],
+  "partial_sources": [],
+  "wiki_dengue_coverage": {},
+  "wiki_mosquito_coverage": {},
+  "output_files": {
+    "monthly_data": "/Users/cathiesmac/Downloads/Nowcast Dengue in India/dengue_updater/data/processed/monthly_data.csv",
+    "yearly_data": "/Users/cathiesmac/Downloads/Nowcast Dengue in India/dengue_updater/data/processed/yearly_data.csv",
+    "master_xlsx": "/Users/cathiesmac/Downloads/Nowcast Dengue in India/dengue_updater/data/processed/master_data.xlsx"
+  },
+  "notes": ""
+}

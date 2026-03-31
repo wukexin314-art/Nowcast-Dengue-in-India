@@ -375,17 +375,23 @@ def plot_loss_curve(loss_df: pd.DataFrame, outdir: Path) -> None:
 
 
 def plot_who_vs_pred(pred_df: pd.DataFrame, outdir: Path) -> None:
-    df = pred_df.dropna(subset=["y_who"]).copy()
+    df = pred_df.copy()
+    df["date_dt"] = pd.to_datetime(df["date"] + "-01")
+    df = df[df["date_dt"] >= pd.Timestamp("2021-01-01")].copy()
+
     if df.empty:
         return
 
     fig = plt.figure()
-    dates = pd.to_datetime(df["date"] + "-01")
-    plt.plot(dates, df["x_pred"], label="Predicted")
-    plt.plot(dates, df["y_who"], label="WHO observed")
+    plt.plot(df["date_dt"], df["x_pred"], label="Imputed")  # full line
+
+    who = df.dropna(subset=["y_who"])
+    if not who.empty:
+        plt.plot(who["date_dt"], who["y_who"], label="WHO observed")  # only observed points
+
     plt.xlabel("Date")
     plt.ylabel("Monthly dengue cases")
-    plt.title("WHO vs Prediction (Step 1)")
+    plt.title("WHO vs Imputation (Data Preprossessing)")
     plt.legend()
     plt.tight_layout()
     fig.savefig(outdir / "who_vs_pred_step1.png", dpi=200)

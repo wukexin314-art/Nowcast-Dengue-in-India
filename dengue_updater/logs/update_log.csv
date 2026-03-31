@@ -1,0 +1,20 @@
+run_time,source_name,status,fetch_mode,rows_fetched,rows_added,rows_updated,expected_languages,successful_languages,error_message
+2026-03-31T14:24:38.943933,WHO,SUCCESS,shiny,26,26,0,,,
+2026-03-31T14:24:38.943933,google_trends_dengue_fever,SUCCESS,,62,62,0,,,
+2026-03-31T14:24:38.943933,google_trends_dengue_vaccine,SUCCESS,,62,62,0,,,
+2026-03-31T14:24:38.943933,open_dengue,SUCCESS,,4,4,0,,,
+2026-03-31T14:24:38.943933,wiki_dengue,FAILED,,0,0,0,7,0,All language fetches failed — existing values preserved
+2026-03-31T14:24:38.943933,wiki_mosquito,FAILED,,0,0,0,5,0,All language fetches failed — existing values preserved
+2026-03-31T14:26:06.804158,open_dengue,SUCCESS,,4,4,0,,,
+2026-03-31T14:27:15.995192,WHO,SUCCESS,shiny,26,26,0,,,
+2026-03-31T14:27:15.995192,google_trends_dengue_fever,SUCCESS,,62,62,0,,,
+2026-03-31T14:27:15.995192,google_trends_dengue_vaccine,SUCCESS,,62,62,0,,,
+2026-03-31T14:27:15.995192,open_dengue,SUCCESS,,4,0,4,,,
+2026-03-31T14:27:15.995192,wiki_dengue,FAILED,,0,0,0,7,0,All language fetches failed — existing values preserved
+2026-03-31T14:27:15.995192,wiki_mosquito,FAILED,,0,0,0,5,0,All language fetches failed — existing values preserved
+2026-03-31T14:33:28.269089,WHO,SUCCESS,shiny,26,0,26,,,
+2026-03-31T14:33:28.269089,google_trends_dengue_fever,SUCCESS,,62,0,62,,,
+2026-03-31T14:33:28.269089,google_trends_dengue_vaccine,SUCCESS,,62,0,62,,,
+2026-03-31T14:33:28.269089,open_dengue,SUCCESS,,4,0,4,,,
+2026-03-31T14:33:28.269089,wiki_dengue,PARTIAL,,63,63,0,7,6,ta
+2026-03-31T14:33:28.269089,wiki_mosquito,SUCCESS,,63,63,0,5,5,

@@ -1,0 +1,32 @@
+{
+  "run_time": "2026-03-31T14:33:28.269089",
+  "overall_status": "PARTIAL",
+  "successful_sources": [
+    "WHO",
+    "google_trends",
+    "open_dengue",
+    "wiki_mosquito"
+  ],
+  "failed_sources": [],
+  "partial_sources": [
+    "wiki_dengue"
+  ],
+  "wiki_dengue_coverage": {
+    "expected": 7,
+    "successful": 6,
+    "failed_languages": [
+      "ta"
+    ]
+  },
+  "wiki_mosquito_coverage": {
+    "expected": 5,
+    "successful": 5,
+    "failed_languages": []
+  },
+  "output_files": {
+    "monthly_data": "/Users/cathiesmac/Downloads/Nowcast Dengue in India/dengue_updater/data/processed/monthly_data.csv",
+    "yearly_data": "/Users/cathiesmac/Downloads/Nowcast Dengue in India/dengue_updater/data/processed/yearly_data.csv",
+    "master_xlsx": "/Users/cathiesmac/Downloads/Nowcast Dengue in India/dengue_updater/data/processed/master_data.xlsx"
+  },
+  "notes": "Partial sources: wiki_dengue"
+}
