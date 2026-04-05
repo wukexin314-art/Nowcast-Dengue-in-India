@@ -138,7 +138,7 @@ def apply_update(
             new_row = {col: None for col in config.MONTHLY_COLUMNS}
             new_row["date"] = date
             if _is_non_null(new_val):
-                new_row[value_col] = new_val
+                new_row[value_col] = str(new_val)
                 rows_added += 1
             result = pd.concat([result, pd.DataFrame([new_row])], ignore_index=True)
         else:
@@ -147,7 +147,7 @@ def apply_update(
                 # Full-window replacement: always overwrite with new value (even if null)
                 # but only update the column, not add a new null row
                 if _is_non_null(new_val):
-                    result.loc[result["date"] == date, value_col] = new_val
+                    result.loc[result["date"] == date, value_col] = str(new_val)
                     if _is_non_null(existing_val):
                         rows_updated += 1
                     else:
@@ -158,7 +158,7 @@ def apply_update(
             else:
                 # Standard rule: only overwrite with non-null new values
                 if _is_non_null(new_val):
-                    result.loc[result["date"] == date, value_col] = new_val
+                    result.loc[result["date"] == date, value_col] = str(new_val)
                     if _is_non_null(existing_val):
                         rows_updated += 1
                     else:
