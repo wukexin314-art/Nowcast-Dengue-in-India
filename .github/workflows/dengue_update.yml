@@ -22,6 +22,9 @@ on:
   schedule:
     - cron: '0 3 5,20 * *'   # 5th and 20th of each month, 03:00 UTC
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   update:
     runs-on: ubuntu-latest
