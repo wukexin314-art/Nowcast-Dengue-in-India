@@ -9,6 +9,64 @@ The goal is to generate **timely monthly dengue estimates** when official report
 
 ---
 
+## dengue_updater — Automated Data Pipeline
+
+`dengue_updater/` is a standalone data pipeline that keeps the input datasets up to date by fetching from 5 sources automatically.
+
+### Output files (committed to the repo)
+
+| File | Description |
+|---|---|
+| `dengue_updater/data/processed/monthly_data.csv` | 6-column wide-format monthly data from 2021-01 onward |
+| `dengue_updater/data/processed/yearly_data.csv` | Annual OpenDengue national totals |
+| `dengue_updater/data/processed/master_data.xlsx` | Excel workbook with both sheets |
+| `dengue_updater/logs/update_log.csv` | Append-only log of every fetch run |
+
+### Local run
+
+```bash
+cd dengue_updater
+pip install -r requirements.txt
+
+# Full run (all sources)
+python src/main.py
+
+# Dry run (fetch but do not write files)
+python src/main.py --dry-run
+
+# Skip individual sources
+python src/main.py --skip-who --skip-google-trends
+python src/main.py --skip-open-dengue --skip-wikipedia
+```
+
+### GitHub Actions
+
+The workflow runs automatically on the **5th and 20th of each month at 03:00 UTC**.
+
+To trigger manually:
+1. Go to **Actions → Dengue Data Update → Run workflow**
+2. Optionally toggle skip flags for individual sources
+3. Click **Run workflow**
+
+After a successful run, if any processed file changed the bot commits and pushes automatically with message `auto: update dengue data YYYY-MM-DD`.
+
+### What gets committed vs. ignored
+
+- **Committed:** `data/processed/*.csv`, `data/processed/*.xlsx`, `logs/update_log.csv`
+- **Ignored (gitignore):** `data/raw/`, `data/interim/`, `logs/run_*.log`, `logs/run_summary_*.json`
+
+### Troubleshooting
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| Overall status `PARTIAL` | Wikipedia: one language timed out | Normal — partial sums are still written. Will retry next run. |
+| WHO: `FAILED` | Shiny app rate-limit or maintenance | Existing values preserved. Will retry next run. |
+| Google Trends: `FAILED` | 429 Too Many Requests | Exponential backoff already implemented. Re-run manually after 30 min. |
+| `No module named 'bs4'` | Missing dep | `pip install beautifulsoup4` (already in requirements.txt) |
+| Run exits with no commit | No new data since last run | Expected behavior — workflow exits cleanly without error. |
+
+---
+
 ## Contents
 - [Project Overview](#project-overview)
 - [Key Features](#key-features)

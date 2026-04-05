@@ -2,3 +2,9 @@
 **/.DS_Store
 output_step2.xlsx
 outputs_step2_jointloss/
+
+# dengue_updater: timestamped per-run files (never commit these)
+dengue_updater/logs/run_*.log
+dengue_updater/logs/run_summary_*.json
+dengue_updater/data/raw/
+dengue_updater/data/interim/

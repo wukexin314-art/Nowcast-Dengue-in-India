@@ -1,0 +1,77 @@
+name: Dengue Data Update
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_who:
+        description: 'Skip WHO fetch'
+        type: boolean
+        default: false
+      skip_google_trends:
+        description: 'Skip Google Trends fetch'
+        type: boolean
+        default: false
+      skip_open_dengue:
+        description: 'Skip OpenDengue fetch'
+        type: boolean
+        default: false
+      skip_wikipedia:
+        description: 'Skip Wikipedia fetch'
+        type: boolean
+        default: false
+  schedule:
+    - cron: '0 3 5,20 * *'   # 5th and 20th of each month, 03:00 UTC
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: dengue_updater/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r dengue_updater/requirements.txt
+
+      - name: Build skip flags
+        id: flags
+        run: |
+          FLAGS=""
+          [ "${{ inputs.skip_who }}"           = "true" ] && FLAGS="$FLAGS --skip-who"
+          [ "${{ inputs.skip_google_trends }}"  = "true" ] && FLAGS="$FLAGS --skip-google-trends"
+          [ "${{ inputs.skip_open_dengue }}"    = "true" ] && FLAGS="$FLAGS --skip-open-dengue"
+          [ "${{ inputs.skip_wikipedia }}"      = "true" ] && FLAGS="$FLAGS --skip-wikipedia"
+          echo "flags=$FLAGS" >> $GITHUB_OUTPUT
+
+      - name: Run dengue updater
+        working-directory: dengue_updater
+        run: python src/main.py ${{ steps.flags.outputs.flags }}
+
+      - name: Check for changes in processed outputs
+        id: changes
+        run: |
+          git diff --quiet \
+            dengue_updater/data/processed/ \
+            dengue_updater/logs/update_log.csv \
+            || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dengue_updater/data/processed/
+          git add dengue_updater/logs/update_log.csv
+          git commit -m "auto: update dengue data $(date -u +%Y-%m-%d)"
+          git push
+
+      - name: No changes detected
+        if: steps.changes.outputs.changed != 'true'
+        run: echo "No changes in processed outputs — skipping commit."
