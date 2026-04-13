@@ -1,6 +1,6 @@
 # dengue_updater — Comprehensive Handoff Note
 
-> Written: 2026-03-30
+> Written: 2026-03-30 | Last updated: 2026-04-12
 > Purpose: preserve all design decisions, corrections, source-validation results, and open items so work can resume after context compaction.
 
 ---
@@ -33,6 +33,7 @@ Key: `date` (YYYY-MM string)
 | google_trends_dengue_fever | float | pytrends |
 | google_trends_dengue_vaccine | float | pytrends |
 | wikipedia_total_dengue_views | float | Wikimedia API (7 langs summed) |
+| wikipedia_total_dengue_views_normalized | float | Derived: `raw × ratio_t × 0.918` (see §wiki-normalization) |
 | wikipedia_mosquito_views_total | float | Wikimedia API (5 langs summed) |
 
 ### yearly_data.csv
@@ -330,3 +331,151 @@ These are decisions that were initially proposed differently and then corrected 
 7. **OpenDengue GitHub URL:** Config was set to `Admin0_Cases_1990_2024.csv` which returns 404. **DISCOVERED:** Correct URL is `National_extract_V1_1.csv`. Must be fixed in `config.py`.
 
 8. **WHO Shiny download flow:** Initially attempted HTTP GET on download URL after closing WebSocket → 404. Then tried keeping WebSocket open but skipping terms acceptance → 500. **FINAL WORKING FLOW:** Must (a) accept terms via `closeModal`, (b) navigate to download tab (`meta` → `dl_data`), (c) set `dl_filter_adm_level=global`, (d) download while WebSocket stays open → 200 with valid Excel.
+
+---
+
+## 12. Changes Made 2026-04-11
+
+### 12.1 Wikipedia Old-Style Normalization Column Added
+
+**Problem**: `wikipedia_total_dengue_views` in the new pipeline is ~7× larger than the old `total_dengue_views.csv` values, because the old data applied a month-level multiplicative re-weighting (not z-score/min-max). This caused the wiki feature to enter the Step 2 model at a completely different scale than it was trained on historically.
+
+**Fix**: Added `add_wiki_normalized_column()` to `src/update_monthly.py`. This function:
+1. Reads `wikipedia_raw_vs_weighted_pageviews(in).csv` (project root)
+2. Computes `ratio_t = weighted_total_pageviews_t / raw_total_pageviews_t` per month
+3. Fills missing months via ffill/bfill
+4. Writes `wikipedia_total_dengue_views_normalized = raw × ratio_t × 0.918` into `monthly_data.csv`
+
+The original `wikipedia_total_dengue_views` column is preserved unchanged.
+
+`src/main.py` now calls `add_wiki_normalized_column(monthly_df)` before every `save_monthly_data()` call, so the column is always current after any data update run.
+
+**Config constants added to `src/config.py`**:
+```python
+WIKI_NORM_REFERENCE_CSV = PROJECT_ROOT.parent / "wikipedia_raw_vs_weighted_pageviews(in).csv"
+WIKI_NORM_GLOBAL_SCALE  = 0.918
+```
+
+**Modeling impact**: `updated_nowcast_log.ipynb` defaults to `wiki_column = 'wikipedia_total_dengue_views_normalized'`. `load_processed_data.get_wiki_dengue_df()` also returns the normalized column by default (falls back to raw if column absent).
+
+### 12.2 Critical `load_monthly_features` Bug Fixed in Step 2 Notebooks
+
+**Bug**: Both `updated_nowcast_log.ipynb` (cell 3) and `updated_nowcast.ipynb` (cell 3) had:
+
+```python
+# BUGGY PATTERN — produces all-NaN columns
+df = df.sort_values('date').copy()                          # keeps RangeIndex
+wide = pd.DataFrame(index=pd.DatetimeIndex(df['date']))    # DatetimeIndex
+wide['Google_Trends_Dengue_fever'] = pd.to_numeric(df['google_trends_dengue_fever'], ...)
+# ↑ pandas aligns by label: RangeIndex int vs DatetimeIndex → all NaN
+```
+
+**Impact**: All external features (Google Trends, Wikipedia, mosquito) were silently `NaN`. Step 2 was running as a lag-only + seasonality model with no external signals. This is the primary cause of degraded performance in the new pipeline.
+
+**Fix applied** (both notebooks, cell 3):
+```python
+# FIXED PATTERN
+df = df.set_index('date')   # DatetimeIndex on df itself before slicing
+cols = ['google_trends_dengue_fever', 'google_trends_dengue_vaccine',
+        'wikipedia_total_dengue_views', 'wikipedia_mosquito_views_total']
+if 'wikipedia_total_dengue_views_normalized' in df.columns:
+    cols.append('wikipedia_total_dengue_views_normalized')
+wide = df[cols].apply(pd.to_numeric, errors='coerce').copy()
+wide = wide.rename(columns={
+    'google_trends_dengue_fever':  'Google_Trends_Dengue_fever',
+    'google_trends_dengue_vaccine': 'Google_Trends_Dengue_vaccine',
+})
+return wide.sort_index()
+```
+
+**Validation**: After fix, non-null counts: `Google_Trends_Dengue_fever=63, Google_Trends_Dengue_vaccine=63, wikipedia_total_dengue_views=64, wikipedia_mosquito_views_total=64, wikipedia_total_dengue_views_normalized=64` (out of 64 rows).
+
+**Next required step**: Re-run `updated_nowcast_log.ipynb` from a clean kernel. Outputs currently in `outputs_updated_nowcast_log/rolling_splits/` were produced with the buggy loader and are invalid.
+
+### 12.3 Data Boundaries and Current Latest Nowcast (2026-04-11 / 2026-04-12)
+
+**Problem** (2026-04-11): Rolling split outputs in `outputs_updated_nowcast_log/rolling_splits/` were retrospective CV evaluations — they did not represent the operational "current nowcast". The pipeline lacked an explicit separation between:
+1. True WHO observed endpoint
+2. External signal endpoint
+3. The resulting nowcast output that uses all available information
+
+**Fix — `preprocessing.py`** (2026-04-11):
+Added `compute_data_boundaries(design_df)` function that returns three YYYY-MM strings:
+- `who_observed_through` — last non-null `y_who` date
+- `external_data_through` — last non-null `g_fever` date (Google Trends, the minimum required feature)
+- `nowcast_available_through` — same as `external_data_through`
+
+These are now saved in `params_step1.json` under the `data_boundaries` key after every `preprocessing.py` run.
+
+**Fix — `updated_nowcast_log.ipynb`** (2026-04-12 — major restructuring):
+
+Rolling evaluation has been **completely removed** from this notebook. The notebook was restructured from ~15 cells to **10 cells**. All output files in `outputs_updated_nowcast_log/` now contain the **current operational nowcast** only.
+
+**New notebook structure (10 cells)**:
+
+| Cell | Purpose |
+|---|---|
+| 0 | Markdown title |
+| 1 | Imports |
+| 2 | `Step2Config` dataclass |
+| 3 | Helper functions (`build_design_matrix`, `train_step2_joint_loss`, `compute_rolling_split_range`, etc.) |
+| 4 | Metrics / CI / plotting helpers |
+| 5 | §1 markdown header |
+| 6 | Data loading, `who_display_start`, rolling range (kept for reference; no longer drives output) |
+| 7 | §2 markdown header — three boundaries, file table |
+| 8 | Cleanup stale files → compute boundaries → train final model → Hessian CI → recursive nowcast → build DataFrames + summary dict |
+| 9 | Save all output files + nowcast visualization |
+
+**Cell 8 implements** (in order):
+1. **Cleanup**: deletes stale per-split PNGs and coefficient CSVs from previous runs using glob patterns
+2. **External boundary**: dynamically built from active cfg features (`cfg.google_sources`, `cfg.use_wiki`/`cfg.wiki_column`, `cfg.use_mosquito`) — takes `min(latest non-null month)` across all active feature columns
+3. **Training**: final model on all months ≤ `who_observed_through`
+4. **Hessian CI**: `Var_beta = sigma2 × cfac^2 × (Hinv @ XtX @ Hinv)`; CI via delta method in log1p space (`expm1(log_pred ± z × pred_se)`)
+5. **Recursive nowcast**: for each nowcast month, substitutes lag features whose source months were already nowcasted (stores `log1p(pred)` in `_predicted_log1p` dict)
+6. **DataFrames**: full-series CSV + rolling-compat CSVs + summary dict
+
+**Segment labels in `latest_nowcast_full_series.csv`**:
+- `observed` — 2024-01 through `who_observed_through` (actual WHO data)
+- `step1_imputed` — 2021-01 through 2023-12 (no WHO; Step 1 smooth signal used for lags)
+- `nowcast` — `who_observed_through + 1` through `nowcast_available_through`
+
+**`latest_nowcast_summary.json` structure**:
+```json
+{
+  "who_observed_through": "2026-02",
+  "external_data_through": "2026-03",
+  "nowcast_available_through": "2026-03",
+  "nowcast_window": "2026-03 to 2026-03",
+  "n_nowcast_months": 1,
+  "nowcast_predictions": [{"month": "2026-03", "predicted": ..., "lo_95": ..., "hi_95": ...}],
+  "latest_1_or_2_months": [...],
+  "ci_method": "Normal approximation via Hessian (log1p space, expm1 back-transformed)",
+  ...
+}
+```
+
+**Files in `outputs_updated_nowcast_log/rolling_splits/` — retained names, replaced content**:
+
+> These filenames are kept for dashboard backward compatibility. Content is now the current nowcast, not rolling CV evaluation.
+
+| File | Actual contents |
+|---|---|
+| `rolling_predictions_long.csv` | One row per nowcast horizon; `split_month` = `who_observed_through` |
+| `rolling_prediction_intervals_2month_test_window_long.csv` | Per-month CI; `is_test_window=1` for nowcast months |
+| `rolling_split_metrics.csv` | One row: training-set RMSE/MAPE; `RMSE_test=NaN` |
+| `horizon_specific_predictions_summary.csv` | One row per nowcast horizon step |
+| `first_month_ahead_values.png` | Full nowcast visualization |
+| `second_month_ahead_values.png` | Same plot, H=2 highlighted |
+
+**Files deleted on each re-run**:
+- `pred_ci_*_test_window_split_*.png`
+- `who_vs_pred_step2_split_*.png`
+- `rolling_split_coefficients_*.csv` (all 4 variants)
+- `*_month_ahead_squared_error.png`
+
+**Important caveat**: Even after fixing this bug, new-pipeline results may not match old-pipeline exactly, because:
+- Google Trends values re-normalize across runs
+- Wikipedia language sets differ (7 langs new vs. different set old)
+- Mosquito language sets differ (5 langs new vs. 6 langs old)
+- Yearly proxy source changed (National only vs. State-aggregated)
+The bug fix is necessary before any fair apples-to-apples comparison can be made.

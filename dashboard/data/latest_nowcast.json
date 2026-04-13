@@ -1,0 +1,188 @@
+{
+  "last_data_refresh": "2026-04-11T21:27:55.909169",
+  "latest_split_month": "2025-12",
+  "nowcast_window": "2026-01 to 2026-02",
+  "nowcast_predictions": [
+    {
+      "month": "2026-01",
+      "horizon_step": 1,
+      "predicted": 3355.8,
+      "lo_95": 2106.368477222605,
+      "hi_95": 5346.059179095042
+    },
+    {
+      "month": "2026-02",
+      "horizon_step": 2,
+      "predicted": 2410.3,
+      "lo_95": 1522.9867006534737,
+      "hi_95": 3814.163366032494
+    }
+  ],
+  "who_observed": [
+    {
+      "date": "2024-01",
+      "value": 5079.0
+    },
+    {
+      "date": "2024-02",
+      "value": 5429.0
+    },
+    {
+      "date": "2024-03",
+      "value": 5597.0
+    },
+    {
+      "date": "2024-04",
+      "value": 3342.0
+    },
+    {
+      "date": "2024-05",
+      "value": 5145.0
+    },
+    {
+      "date": "2024-06",
+      "value": 7499.0
+    },
+    {
+      "date": "2024-07",
+      "value": 27675.0
+    },
+    {
+      "date": "2024-08",
+      "value": 32388.0
+    },
+    {
+      "date": "2024-09",
+      "value": 41375.0
+    },
+    {
+      "date": "2024-10",
+      "value": 51183.0
+    },
+    {
+      "date": "2024-11",
+      "value": 30354.0
+    },
+    {
+      "date": "2024-12",
+      "value": 17359.0
+    },
+    {
+      "date": "2025-01",
+      "value": 4700.0
+    },
+    {
+      "date": "2025-02",
+      "value": 3806.0
+    },
+    {
+      "date": "2025-03",
+      "value": 3517.0
+    },
+    {
+      "date": "2025-04",
+      "value": 2700.0
+    },
+    {
+      "date": "2025-05",
+      "value": 3766.0
+    },
+    {
+      "date": "2025-06",
+      "value": 6459.0
+    },
+    {
+      "date": "2025-07",
+      "value": 10302.0
+    },
+    {
+      "date": "2025-08",
+      "value": 14303.0
+    },
+    {
+      "date": "2025-09",
+      "value": 18803.0
+    },
+    {
+      "date": "2025-10",
+      "value": 22659.0
+    },
+    {
+      "date": "2025-11",
+      "value": 22175.0
+    },
+    {
+      "date": "2025-12",
+      "value": 7539.0
+    },
+    {
+      "date": "2026-01",
+      "value": 3544.0
+    },
+    {
+      "date": "2026-02",
+      "value": 3019.0
+    }
+  ],
+  "data_flags": {
+    "who_data_through": "2026-02",
+    "google_trends_available": true,
+    "wikipedia_available": true,
+    "mosquito_available": true,
+    "rolling_results_available": true
+  },
+  "rolling_metrics": {
+    "rmse_mean": 2946.7,
+    "mape_mean": 22.1,
+    "n_splits": 11,
+    "benchmark_rmse_mean": 10731.6,
+    "benchmark_mape_mean": 78.17,
+    "benchmark_label": "Seasonal naive (same month, prior year)"
+  },
+  "nowcast_series_h1": [
+    {
+      "date": "2025-03",
+      "predicted": 3175.8939720697003
+    },
+    {
+      "date": "2025-04",
+      "predicted": 2889.726218951957
+    },
+    {
+      "date": "2025-05",
+      "predicted": 4453.69566361171
+    },
+    {
+      "date": "2025-06",
+      "predicted": 6677.970196821607
+    },
+    {
+      "date": "2025-07",
+      "predicted": 14678.738997420212
+    },
+    {
+      "date": "2025-08",
+      "predicted": 17786.581277366644
+    },
+    {
+      "date": "2025-09",
+      "predicted": 22538.75920073808
+    },
+    {
+      "date": "2025-10",
+      "predicted": 26638.063273703476
+    },
+    {
+      "date": "2025-11",
+      "predicted": 19658.77752368476
+    },
+    {
+      "date": "2025-12",
+      "predicted": 10307.6250882184
+    },
+    {
+      "date": "2026-01",
+      "predicted": 3355.8175344913625
+    }
+  ]
+}

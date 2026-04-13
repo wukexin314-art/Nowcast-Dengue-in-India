@@ -265,6 +265,11 @@ def main() -> None:
         logger.info("Wikipedia total time: %.1fs", elapsed)
 
     # ------------------------------------------------------------------
+    # Compute wikipedia_total_dengue_views_normalized before saving
+    # ------------------------------------------------------------------
+    monthly_df = um.add_wiki_normalized_column(monthly_df)
+
+    # ------------------------------------------------------------------
     # Persist processed data
     # ------------------------------------------------------------------
     if not args.dry_run:

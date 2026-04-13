@@ -43,6 +43,11 @@ LEGACY_MASTER_CSV       = PROJECT_ROOT.parent / "master_data.csv"
 LEGACY_DENGUE_VIEWS_CSV = PROJECT_ROOT.parent / "total_dengue_views.csv"
 LEGACY_MOSQUITO_CSV     = PROJECT_ROOT.parent / "monthly_mosquito_aggregate.csv"
 
+# Wiki normalization reference file (old-style weighted pageviews, used to
+# compute the month-level ratio: weighted_total / raw_total)
+WIKI_NORM_REFERENCE_CSV = PROJECT_ROOT.parent / "wikipedia_raw_vs_weighted_pageviews(in).csv"
+WIKI_NORM_GLOBAL_SCALE  = 0.918  # additional global correction factor
+
 # ---------------------------------------------------------------------------
 # Date range
 # ---------------------------------------------------------------------------
@@ -120,6 +125,7 @@ MONTHLY_COLUMNS = [
     "google_trends_dengue_fever",
     "google_trends_dengue_vaccine",
     "wikipedia_total_dengue_views",
+    "wikipedia_total_dengue_views_normalized",
     "wikipedia_mosquito_views_total",
 ]
 

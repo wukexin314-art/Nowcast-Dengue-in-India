@@ -31,6 +31,64 @@ import config
 logger = logging.getLogger(__name__)
 
 
+def add_wiki_normalized_column(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Compute wikipedia_total_dengue_views_normalized and add/update it in df.
+
+    Formula:
+        normalized_t = raw_t × (weighted_t / raw_t) × WIKI_NORM_GLOBAL_SCALE
+
+    where the month-level ratio comes from WIKI_NORM_REFERENCE_CSV.
+    Missing months in the reference are filled with ffill then bfill.
+    The original wikipedia_total_dengue_views column is never modified.
+    """
+    ref_path = config.WIKI_NORM_REFERENCE_CSV
+    if not ref_path.exists():
+        logger.warning(
+            "add_wiki_normalized_column | reference file not found: %s — skipping", ref_path
+        )
+        if "wikipedia_total_dengue_views_normalized" not in df.columns:
+            df["wikipedia_total_dengue_views_normalized"] = None
+        return df
+
+    ref = pd.read_csv(ref_path)
+    ref = ref.drop_duplicates(subset="month", keep="first").copy()
+    ref["wiki_weight_ratio"] = (
+        pd.to_numeric(ref["weighted_total_pageviews"], errors="coerce") /
+        pd.to_numeric(ref["raw_total_pageviews"],      errors="coerce")
+    )
+
+    # Build ratio series covering all months present in either source
+    data_months = df["date"].dropna().unique().tolist()
+    all_months = sorted(set(ref["month"].tolist()) | set(data_months))
+    ratio_series = (
+        ref.set_index("month")["wiki_weight_ratio"]
+        .reindex(all_months)
+        .ffill()
+        .bfill()
+    )
+
+    raw_wiki = pd.to_numeric(df["wikipedia_total_dengue_views"], errors="coerce")
+    ratio_vals = df["date"].map(ratio_series.to_dict())
+    normalized = raw_wiki * ratio_vals * config.WIKI_NORM_GLOBAL_SCALE
+
+    df = df.copy()
+    df["wikipedia_total_dengue_views_normalized"] = normalized.where(
+        normalized.notna(), other=None
+    ).astype(object)
+    # Round to 4 decimal places for readability
+    df["wikipedia_total_dengue_views_normalized"] = df[
+        "wikipedia_total_dengue_views_normalized"
+    ].apply(lambda x: round(float(x), 4) if pd.notna(x) and x is not None else None)
+
+    n_filled = normalized.notna().sum()
+    logger.info(
+        "add_wiki_normalized_column | computed normalized wiki for %d/%d rows",
+        n_filled, len(df),
+    )
+    return df
+
+
 # ---------------------------------------------------------------------------
 # Public interface
 # ---------------------------------------------------------------------------
