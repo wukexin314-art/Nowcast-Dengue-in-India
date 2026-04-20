@@ -2,3 +2,9 @@ streamlit>=1.30
 pandas>=2.0
 plotly>=5.0
 numpy>=1.24
+
+# History API
+fastapi>=0.111
+uvicorn[standard]>=0.29
+pyarrow>=14.0        # Parquet support for pandas
+pydantic>=2.0
