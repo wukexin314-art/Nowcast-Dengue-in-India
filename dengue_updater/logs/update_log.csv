@@ -30,3 +30,9 @@ run_time,source_name,status,fetch_mode,rows_fetched,rows_added,rows_updated,expe
 2026-04-05T03:39:39.500820,open_dengue,SUCCESS,,4,0,4,,,
 2026-04-05T03:39:39.500820,wiki_dengue,PARTIAL,,64,0,64,7,6,ta
 2026-04-05T03:39:39.500820,wiki_mosquito,SUCCESS,,64,0,64,5,5,
+2026-04-20T05:46:38.000786,WHO,SUCCESS,shiny,26,0,26,,,
+2026-04-20T05:46:38.000786,google_trends_dengue_fever,SUCCESS,,63,0,63,,,
+2026-04-20T05:46:38.000786,google_trends_dengue_vaccine,SUCCESS,,63,0,63,,,
+2026-04-20T05:46:38.000786,open_dengue,SUCCESS,,4,0,4,,,
+2026-04-20T05:46:38.000786,wiki_dengue,PARTIAL,,64,0,64,7,6,ta
+2026-04-20T05:46:38.000786,wiki_mosquito,SUCCESS,,64,0,64,5,5,
