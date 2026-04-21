@@ -1,0 +1,6 @@
+# Development dependencies — not needed to use the package
+pytest>=7.4
+pytest-cov>=4.1
+build>=1.0          # python -m build
+twine>=4.0          # twine upload dist/*
+requests>=2.28      # also a runtime dep; listed here for dev envs
