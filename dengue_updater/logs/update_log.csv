@@ -84,3 +84,9 @@ run_time,source_name,status,fetch_mode,rows_fetched,rows_added,rows_updated,expe
 2026-08-20T03:51:26.362027,open_dengue,SUCCESS,,4,0,4,,,
 2026-08-20T03:51:26.362027,wiki_dengue,PARTIAL,,68,0,68,7,6,ta
 2026-08-20T03:51:26.362027,wiki_mosquito,SUCCESS,,68,0,68,5,5,
+2026-09-05T07:33:55.655385,WHO,FAILED,failed,0,0,0,,,All layers failed (mode=failed)
+2026-09-05T07:33:55.655385,google_trends_dengue_fever,SUCCESS,,68,1,67,,,
+2026-09-05T07:33:55.655385,google_trends_dengue_vaccine,SUCCESS,,68,1,67,,,
+2026-09-05T07:33:55.655385,open_dengue,SUCCESS,,4,0,4,,,
+2026-09-05T07:33:55.655385,wiki_dengue,PARTIAL,,69,1,68,7,6,ta
+2026-09-05T07:33:55.655385,wiki_mosquito,PARTIAL,,69,1,68,5,3,"ml, kn"
