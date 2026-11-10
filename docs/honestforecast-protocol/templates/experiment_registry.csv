@@ -1,0 +1,9 @@
+experiment_id,regime,model,baseline_feature_set,candidate_feature_set,horizons,selection_scope,primary_metric,status,claim_level
+E001,R0_latest_revised,M1_regularized_arx,F0_seasonality,F0_plus_F1_history,"1,2",development_only,WIS,planned,diagnostic
+E002,R1_lag_safe,M1_regularized_arx,F0_seasonality,F0_plus_F1_history,"1,2",development_only,WIS,planned,sensitivity
+E003,R2_snapshot_pilot,M1_regularized_arx,F0_plus_F1_history,F0_plus_F1_plus_F2_google_fever,"1,2",development_only,WIS,planned,reconstructed_or_historical
+E004,R2_snapshot_pilot,M1_regularized_arx,F0_plus_F1_history,F0_plus_F1_plus_F3_google_vaccine,"1,2",development_only,WIS,planned,reconstructed_or_historical
+E005,R2_snapshot_pilot,M1_regularized_arx,F0_plus_F1_history,F0_plus_F1_plus_F4_wiki_dengue,"1,2",development_only,WIS,planned,reconstructed_or_historical
+E006,R2_snapshot_pilot,M1_regularized_arx,F0_plus_F1_history,F0_plus_F1_plus_F5_wiki_mosquito,"1,2",development_only,WIS,planned,reconstructed_or_historical
+E007,R2_snapshot_pilot,M1_regularized_arx,F0_plus_F1_history,F0_plus_F1_plus_eligible_digital,"1,2",development_only,WIS,planned,reconstructed_or_historical
+E008,R3_prospective_snapshot,M1_regularized_arx,F0_plus_F1_history,frozen_promoted_or_challenger_set,"1,2",frozen_before_outcomes,WIS,planned,prospective

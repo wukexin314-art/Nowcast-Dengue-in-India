@@ -14,6 +14,13 @@ combination of official WHO surveillance data and real-time digital proxy signal
 | **API** | [dengue-nowcast-api.onrender.com](https://dengue-nowcast-api.onrender.com) |
 | **API interactive docs** | [dengue-nowcast-api.onrender.com/docs](https://dengue-nowcast-api.onrender.com/docs) |
 | **Python client** | `pip install "git+https://github.com/wukexin314-art/Nowcast-Dengue-in-India.git@main#subdirectory=client"` |
+| **HonestForecast research toolkit** | [`honestforecast/`](honestforecast/) |
+
+## HonestForecast research track
+
+This repository now includes **HonestForecast**, an audit-oriented toolkit for deciding whether delayed or revised feature families genuinely improve probabilistic forecasts. It adds origin-available feature vintages, fold-local transformations, development-only screening, exact-grid feature ablations, robustness/promotion rules, and synthetic defect injection.
+
+The first real-data audit reconstructs 18 Git-preserved dengue input snapshots and finds 1,543 historical revision events across 203 unique feature-period pairs, with no successful update overwriting a previously non-null value with null. On the first seven comparable origins, seasonal naive also beats the small target-history and digital-proxy ridge challengers; the rejected feature families are retained as evidence rather than hidden. See the [toolkit README](honestforecast/README.md), [landscape review](honestforecast/docs/LANDSCAPE.md), [vintage audit](honestforecast/case_studies/india_dengue/vintage_audit/REPORT.md), and [applied pilot](honestforecast/case_studies/india_dengue/pilot/REPORT.md).
 
 ---
 

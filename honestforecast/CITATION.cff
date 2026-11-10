@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use HonestForecast, please cite this software."
+title: "HonestForecast: Evidence-first feature engineering for auditable forecasting research"
+type: software
+authors:
+  - name: "wukexin314-art"
+repository-code: "https://github.com/wukexin314-art/Nowcast-Dengue-in-India"
+url: "https://github.com/wukexin314-art/Nowcast-Dengue-in-India/tree/main/honestforecast"
+version: 0.3.0
+date-released: 2026-11-09
+license: MIT

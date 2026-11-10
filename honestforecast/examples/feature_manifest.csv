@@ -1,0 +1,4 @@
+feature_id,family,version,availability_class,minimum_reporting_lag,vintage_policy,state
+target_lag_1,target_history,1,observed_with_lag,1 month,origin_available_target,proposed
+fourier_k2,seasonality,1,known_ahead,0,deterministic,proposed
+digital_proxy,digital_proxy,1,observed_with_lag,1 month,snapshot_every_fetch,proposed

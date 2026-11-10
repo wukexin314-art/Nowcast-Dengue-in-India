@@ -1,0 +1,51 @@
+name: HonestForecast CI
+
+on:
+  push:
+    paths:
+      - "honestforecast/**"
+      - ".github/workflows/honestforecast_ci.yml"
+  pull_request:
+    paths:
+      - "honestforecast/**"
+      - ".github/workflows/honestforecast_ci.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.11"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ./honestforecast
+      - name: Test
+        run: python -m unittest discover -s honestforecast/tests -v
+      - name: Synthetic known-answer run
+        run: honestforecast-synthetic --output-dir /tmp/honestforecast-synthetic
+      - name: Vintage audit known-answer run
+        run: |
+          honestforecast-vintage-audit \
+            --repo . \
+            --data-path dengue_updater/data/processed/monthly_data.csv \
+            --update-log dengue_updater/logs/update_log.csv \
+            --as-of 2026-11-09 \
+            --output-dir /tmp/honestforecast-vintage
+      - name: India dengue applied pilot
+        run: |
+          honestforecast-dengue-pilot \
+            --repo . \
+            --data-path dengue_updater/data/processed/monthly_data.csv \
+            --output-dir /tmp/honestforecast-dengue-pilot
+      - name: Public safety and package metadata
+        working-directory: honestforecast
+        run: |
+          python scripts/public_safety_scan.py
+          python setup.py check --strict
+          python -m pip wheel . --no-deps --wheel-dir /tmp/honestforecast-wheel

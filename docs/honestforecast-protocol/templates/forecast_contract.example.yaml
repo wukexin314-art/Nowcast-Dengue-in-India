@@ -1,0 +1,50 @@
+schema_version: "0.1"
+study_id: "india-dengue-monthly"
+status: "development"
+
+target:
+  name: "monthly dengue activity"
+  canonical_column: "who_cases_monthly"
+  geography: "India"
+  frequency: "monthly"
+  unit: "reported cases or registered calibrated activity unit"
+  nonnegative: true
+
+forecast:
+  issue_schedule: "after each registered monthly data snapshot"
+  horizons: [1, 2]
+  horizon_unit: "month"
+  recursive_after_horizon: 1
+  intended_use: "research-stage public-health situational awareness"
+  prohibited_use:
+    - "clinical diagnosis"
+    - "individual treatment"
+    - "replacement for official surveillance"
+
+information_set:
+  who_observed_through: "derive_from_vintage"
+  external_data_through: "derive_from_required_feature_coverage"
+  nowcast_available_through: "derive"
+  outcome_mature_through: "derive_from_registered_maturity_rule"
+  timezone: "UTC for retrieval records; monthly target period has no intraday issue time"
+
+vintage:
+  required: true
+  allowed_classes:
+    - "prospective_snapshot"
+    - "historical_snapshot"
+    - "reconstructed_snapshot"
+    - "latest_revised"
+    - "assumed_lag"
+  primary_confirmation_class: "prospective_snapshot"
+
+evaluation:
+  primary_metric: "WIS"
+  secondary_metrics: ["MAE", "relative_WIS", "coverage_50", "coverage_80", "coverage_95", "interval_width"]
+  origin_pairing_required: true
+  horizon_reporting: "separate_then_equal_weight_secondary_pool"
+  development_only_selection: true
+
+privacy:
+  public_data_only: true
+  excluded_projects: ["CHOA", "Dow ERCOT"]

@@ -1,0 +1,38 @@
+{
+  "as_of": "2026-11-09",
+  "expected_interval_days": 20,
+  "freshness_status": "current",
+  "last_run_at": "2026-11-05T10:39:23.771288",
+  "log_rows": 115,
+  "source_status_counts": {
+    "WHO": {
+      "FAILED": 1,
+      "SUCCESS": 18
+    },
+    "google_trends_dengue_fever": {
+      "SUCCESS": 19
+    },
+    "google_trends_dengue_vaccine": {
+      "SUCCESS": 19
+    },
+    "open_dengue": {
+      "SUCCESS": 20
+    },
+    "wiki_dengue": {
+      "FAILED": 2,
+      "PARTIAL": 17
+    },
+    "wiki_mosquito": {
+      "FAILED": 2,
+      "PARTIAL": 10,
+      "SUCCESS": 7
+    }
+  },
+  "stale_days": 4,
+  "status_counts": {
+    "FAILED": 5,
+    "PARTIAL": 27,
+    "SUCCESS": 83
+  },
+  "unique_runs": 20
+}

@@ -1,0 +1,6 @@
+field,revision_events,unique_periods_revised,added_events,removed_events,mean_absolute_revision,median_absolute_revision,max_absolute_revision
+google_trends_dengue_fever,512,57,8,0,1.65234375,1.0,8.0
+google_trends_dengue_vaccine,686,68,8,0,4.465014577259475,1.0,81.0
+who_cases_monthly,0,0,7,0,,,
+wikipedia_mosquito_views_total,337,70,0,0,538.7359050445103,439.0,3785.0
+wikipedia_total_dengue_views,8,8,0,0,3696.125,3681.0,5205.0

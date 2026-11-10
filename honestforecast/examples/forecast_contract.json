@@ -1,0 +1,8 @@
+{
+  "study_id": "synthetic-delayed-surveillance",
+  "target_name": "monthly activity",
+  "frequency": "monthly",
+  "horizons": [1, 2],
+  "primary_metric": "WIS",
+  "development_only_selection": true
+}
