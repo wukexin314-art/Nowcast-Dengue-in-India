@@ -12,7 +12,9 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # Pin the runner because ubuntu-latest moved to 26.04 before setup-python
+    # published a Python 3.9 build for that image.
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         python-version: ["3.9", "3.11"]
